@@ -31,6 +31,7 @@ config =
     init: if production == true then false else true
   debug:
     mongo: if production == true then false else false
+    config: if production == true then false else true
 
 conf = new Config config
 
