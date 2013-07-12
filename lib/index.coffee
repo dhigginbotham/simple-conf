@@ -2,38 +2,39 @@ _ = require "underscore"
 _secret = "superSecretPassWordDawgz1!2@"
 _password = process.env.NODE_PASS || _secret
 
-config = (opts) ->
+config = (opts, defaults) ->
 
-  @app = {}
-  @app.title = "Default-config-build"
-  @app.initials = "dcb"
-  @app.port = process.env.port || 3000
-  @app.host = "http://localhost#{@app.port}"
-  @app.serverStart = "Starting express server "
+  if not defaults? or defaults == true
+    @app = {}
+    @app.title = "Default-config-build"
+    @app.initials = "dcb"
+    @app.port = process.env.port || 3000
+    @app.host = "http://localhost#{@app.port}"
+    @app.serverStart = "Starting express server "
 
-  @db = {}
-  @db.path = "#{@app.initials}"
-  @db.url = process.env.MONGO_DB_STRING || "mongodb://localhost/#{@db.path}"
+    @db = {}
+    @db.path = "#{@app.initials}"
+    @db.url = process.env.MONGO_DB_STRING || "mongodb://localhost/#{@db.path}"
 
-  @sesh = {}
-  @sesh.key = "#{@app.initials}.id"
-  @sesh.secret = _password
-  @sesh.maxAge = 60 * 60 * 1000
+    @sesh = {}
+    @sesh.key = "#{@app.initials}.id"
+    @sesh.secret = _password
+    @sesh.maxAge = 60 * 60 * 1000
 
-  @seed = {}
-  @seed.init = false
-  @seed.folders = true
+    @seed = {}
+    @seed.init = false
+    @seed.folders = true
 
-  @users = {}
-  @users.roles = ['user', 'admin', 'editor', 'commenter']
-  @users.signupEnabled = true
+    @users = {}
+    @users.roles = ['user', 'admin', 'editor', 'commenter']
+    @users.signupEnabled = true
 
-  @debug = {}
-  @debug.override = false
+    @debug = {}
+    @debug.override = false
 
   if opts? then _.extend @, opts
 
-  if @seed.init == true
+  if not defaults? and @seed.init == true
     @seed.user = {}
     @seed.user.username = "admin"
     @seed.user.password = _password
