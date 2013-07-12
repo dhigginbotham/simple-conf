@@ -1,5 +1,4 @@
 Config = require ".."
-
 fs = require "fs"
 path = require "path"
 
@@ -18,8 +17,8 @@ config =
     coderbits:
       username: "dhz"
   app:
-    title: "example-app"
-    initials: "xpl"
+    title: "m2Screen"
+    initials: "apg"
     port: port
     host: host
     serverStart: "Starting up your express engines"
@@ -28,10 +27,10 @@ config =
       views: path.join __dirname, "..", "views"
       assets: path.join __dirname, "..", "public"
   seed:
-    init: if production == true then false else true
+    init: if production == true then false else false
   debug:
-    mongo: if production == true then false else false
-    config: if production == true then false else true
+    config: if production == true then false else false
+
 
 conf = new Config config
 
