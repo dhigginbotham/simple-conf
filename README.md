@@ -15,6 +15,7 @@ Step 3) require the config.coffee folder inside your app somewhere and `console.
 for ease this module is going to look for `process.env.NODE_PASS` as well as `process.env.MONGO_DB_STRING` -- it's good practice to keep these things off your repo, so set a cpl env vars, otherwise it's going to default to some silly password.
 
 ### Defaults
+`note` - defaults are now optional, ex: `new Config object, false` renders a more modular config for mountable apps.
 
 ```coffee
 
