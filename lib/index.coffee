@@ -1,4 +1,5 @@
 _ = require "underscore"
+fs = require "fs"
 mkdirp = require "mkdirp"
 _secret = "superSecretPassWordDawgz1!2@"
 _password = process.env.NODE_PASS || _secret
