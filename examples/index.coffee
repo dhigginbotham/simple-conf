@@ -17,8 +17,8 @@ config =
     coderbits:
       username: "dhz"
   app:
-    title: "m2Screen"
-    initials: "apg"
+    title: "example"
+    initials: "exp"
     port: port
     host: host
     serverStart: "Starting up your express engines"
