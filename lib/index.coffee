@@ -1,4 +1,5 @@
 _ = require "underscore"
+mkdirp = require "mkdirp"
 _secret = "superSecretPassWordDawgz1!2@"
 _password = process.env.NODE_PASS || _secret
 
@@ -55,5 +56,19 @@ config::extended = (req) ->
   @_extended.engine = req.protocol + "://" + req.get('host')
   
   @
+
+config::folders = (path, fn) ->
+  fs.exists path, (exists) ->
+    if not exists
+      mkdirp path, (err) ->
+        if fn?
+          return if err? then fn err, null else fn null, path
+        else
+          console.log err if err? else console.log path
+
+config::colors = ->
+  @red = '\x1B[31m'
+  @cyan = '\x1B[36m'
+  @reset = '\x1B[39m'
 
 module.exports = config
