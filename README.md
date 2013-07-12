@@ -18,9 +18,9 @@ for ease this module is going to look for `process.env.NODE_PASS` as well as `pr
 I've included a couple helpers that I use on my apps and find helpful -- maybe you will too?
 
 `extended` - requires `req` good for middleware, or schema stuff that has access to req, adds:
-  - `ip` value: `req.headers["x-forwarded-for"] or req.connection.remoteAddress`
-  - `user` value: if req.user? then req.user.username else "anonymous"
-  - `engine` value: `req.protocol + "://" + req.get('host')`
+  - `ip = req.headers["x-forwarded-for"] or req.connection.remoteAddress`
+  - `user = if req.user? then req.user.username else "anonymous"`
+  - `engine = req.protocol + "://" + req.get('host')`
 
 `folders` - requires `path` & `function (err, path)`
   - adds folders easily so you don't have to deal with `.placeholder` files and whatnot
