@@ -1,4 +1,4 @@
-Config = require "../"
+Config = require "../lib"
 fs = require "fs"
 path = require "path"
 
