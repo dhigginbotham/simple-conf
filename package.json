@@ -1,6 +1,6 @@
 {
   "name": "simple-conf",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "really easy to use config object, extends with underscore",
   "main": "lib/index.coffee",
   "author": {
