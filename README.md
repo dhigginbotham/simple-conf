@@ -14,6 +14,22 @@ Step 3) require the config.coffee folder inside your app somewhere and `console.
 ### Nice things to have
 for ease this module is going to look for `process.env.NODE_PASS` as well as `process.env.MONGO_DB_STRING` -- it's good practice to keep these things off your repo, so set a cpl env vars, otherwise it's going to default to some silly password.
 
+### Config Helpers (new)
+I've included a couple helpers that I use on my apps and find helpful -- maybe you will too?
+
+`extended` - requires `req` good for middleware, or schema stuff that has access to req, adds:
+  - `ip` value: `req.headers["x-forwarded-for"] or req.connection.remoteAddress`
+  - `user` value: if req.user? then req.user.username else "anonymous"
+  - `engine` value: `req.protocol + "://" + req.get('host')`
+
+`folders` - requires `path` & `function (err, path)`
+  - adds folders easily so you don't have to deal with `.placeholder` files and whatnot
+
+`colors` - no requirements
+  - `red` outputs red font color to stdout
+  - `cyan` outputs cyan font color to stdout
+  - `reset` resets font color to stdout
+
 ### Defaults
 `note` - defaults are now optional, ex: `new Config object, false` renders a more modular config for mountable apps.
 
