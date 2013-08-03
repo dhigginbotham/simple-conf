@@ -17,6 +17,11 @@
     "uglify-js": "~2.3.6",
     "stylus": "~0.34.1",
     "flour": "~0.5.5",
-    "jade": "~0.34.1"
+    "jade": "~0.34.1",
+    "expect.js": "~0.2.0",
+    "mocha": "~1.12.0"
+  },
+  "scripts": {
+    "test": "mocha -R spec --growl -t 4000 test/simple.js"
   }
 }

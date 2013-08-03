@@ -5,7 +5,7 @@ mkdirp = require "mkdirp"
 badPwd = "superSecretPassword123456"
 pwd = process.env.NODE_PASS || badPwd
 
-if pwd == badPwd then console.log "It is recommended that you set `process.env.NODE_PASS` before continuing.."
+if pwd == badPwd then console.log "!!!!!!!!!!! It is recommended that you set `process.env.NODE_PASS` before continuing.."
 
 config = (opts) ->
 
@@ -13,7 +13,7 @@ config = (opts) ->
   @app.title = "Default-config-build"
   @app.initials = "dcb"
   @app.port = process.env.port || 3000
-  @app.host = "http://localhost#{@app.port}"
+  @app.host = "http://localhost:#{@app.port}"
   @app.serverStart = "Starting express server "
 
   @db = {}
@@ -28,7 +28,7 @@ config = (opts) ->
   @sesh.maxAge = 60 * 60 * 1000
 
   @seed = {}
-  @seed.init = false
+  @seed.init = true
   @seed.folders = true
 
   @users = {}
@@ -42,7 +42,7 @@ config = (opts) ->
   @env = {}
 
   for env in @envars
-    @env[env] = process.env[env]
+    if process.env.hasOwnProperty(env) then @env[env] = process.env[env]
 
   if @seed.init == true
     @seed.user = {}
@@ -68,16 +68,22 @@ config::extended = (req) ->
 
 config::folders = (path, fn) ->
   fs.exists path, (exists) ->
-    if not exists
-      mkdirp path, (err) ->
-        if fn?
-          return if err? then fn err, null else fn null, path
-        else
-          console.log err if err? else console.log path
+    if not exists then mkdirp path, (err) ->
+      if fn?
+        return if err? then fn err, null else fn null, path
+      else
+        console.log err if err? else console.log path
 
 config::colors = ->
   @red = '\x1B[31m'
   @cyan = '\x1B[36m'
   @reset = '\x1B[39m'
+
+config::init = (app) ->
+  
+  self = @
+
+  app.set 'port', self.port
+  app.set 'title', self.title
 
 module.exports = config
