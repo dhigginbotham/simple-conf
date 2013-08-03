@@ -5,14 +5,15 @@ easy to use config object for your node.js app
 
 ### Installation
 
-Step 1) `npm install git+https://github.com/dhigginbotham/simple-conf --save`
+Step 1) `npm install simple-conf --save`
 
-Step 2) view `/examples/config.coffee` (or copy and paste to your app)
+Step 2) view `/examples/example.js` (or copy and paste to your app)
 
-Step 3) require the config.coffee folder inside your app somewhere and `console.log`
+Step 3) require the `/examples/example.js` file inside your app somewhere and `console.log()`
 
 ### Heads up!
 simple-conf is set to look for a couple environment vars by default, although, if you don't want to set these it will set some defaults instead..
+
   - `process.env.NODE_PASS`, this will set your initial seed admin password and keep this sensitive stuff
   out of your repo. defaults to: `superSecretPassWordDawgz1!2@`
   
