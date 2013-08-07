@@ -1,68 +1,61 @@
-_ = require "underscore"
+_ = require "lodash"
+path = require "path"
 fs = require "fs"
+util = require "util"
 mkdirp = require "mkdirp"
 
-badPwd = "superSecretPassword123456"
-pwd = process.env.NODE_PASS || badPwd
+config = (opts, cleanup, fn) ->
 
-if pwd == badPwd then console.log "!!!!!!!!!!! It is recommended that you set `process.env.NODE_PASS` before continuing.."
+  @title = null
+  
+  @protocol = "http://"
 
-config = (opts) ->
+  @host = "127.0.0.1"
 
-  @app = {}
-  @app.title = "Default-config-build"
-  @app.initials = "dcb"
-  @app.port = process.env.port || 3000
-  @app.host = "http://localhost:#{@app.port}"
-  @app.serverStart = "Starting express server "
+  @port = process.env.port or 3000
 
-  @db = {}
-  @db.path = "#{@app.initials}"
-  @db.url = process.env.MONGO_DB_STRING || "mongodb://localhost/#{@db.path}"
+  @uri = null
 
-  @envars = ['NODE_PASS', 'MONGO_DB_STRING']
+  @db_connection = util.format "mongodb://" + @host + ":" + "27017"
+  @db_path = null
+  @db_uri = null
 
-  @sesh = {}
-  @sesh.key = "#{@app.initials}.id"
-  @sesh.secret = pwd
-  @sesh.maxAge = 60 * 60 * 1000
+  @public = path.join __dirname, "..", "public"
+  @uploads = path.join __dirname, "..", "public", "uploads"
+  @views = path.join __dirname, "..", "views"
 
-  @seed = {}
-  @seed.init = true
-  @seed.folders = true
-
-  @users = {}
-  @users.roles = ['user', 'admin', 'editor', 'commenter']
-
-  @debug = {}
-  @debug.override = false
+  @init = true
 
   if opts? then _.extend @, opts
 
-  @env = {}
+  if not @uri? then @uri = util.format @protocol + @host + ":" + @port
+  
+  if not @db_uri? then @db_uri = util.format @db_connection + "/" + @db_path
+  
+  if cleanup == true
+    delete @init
+    delete @protocol
+    delete @host
+    delete @port
+    delete @db_connection
+    delete @db_path
 
-  for env in @envars
-    if process.env.hasOwnProperty(env) then @env[env] = process.env[env]
+  self = @
 
-  if @seed.init == true
-    @seed.user = {}
-    @seed.user.username = "admin"
-    @seed.user.password = pwd
-    @seed.user.admin = true
-    @seed.user.role = "admin"
-    @seed.user.email = "admin@localhost.it"
-    @seed.user.ip = "admin.ipv6"
+  @locals = (req, res, next) ->
+    res.locals.title = self.title
+    next()
 
-  @
+  self
 
 config::extended = (req) ->
 
   return false if req == null or typeof req == "undefined"
 
-  @_extended = {}
-  @_extended.ip = req.headers["x-forwarded-for"] or req.connection.remoteAddress
-  @_extended.user = if req.user? then req.user.username else "anonymous"
-  @_extended.engine = req.protocol + "://" + req.get('host')
+  @extended = {}
+  @extended.ip = req.headers["x-forwarded-for"] or req.connection.remoteAddress
+  @extended.user = if req.user? then req.user.username else "anonymous"
+  @extended.engine = req.protocol + "://" + req.get('host')
   
   @
 
@@ -85,5 +78,8 @@ config::init = (app) ->
 
   app.set 'port', self.port
   app.set 'title', self.title
+
+config::secret = ->
+  return process.env.NODE_PASS or "4093055!secretPassword"
 
 module.exports = config
