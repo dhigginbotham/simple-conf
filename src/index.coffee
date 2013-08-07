@@ -20,10 +20,6 @@ config = (opts, cleanup, fn) ->
   @db_path = null
   @db_uri = null
 
-  @public = path.join __dirname, "..", "public"
-  @uploads = path.join __dirname, "..", "public", "uploads"
-  @views = path.join __dirname, "..", "views"
-
   @init = true
 
   if opts? then _.extend @, opts
