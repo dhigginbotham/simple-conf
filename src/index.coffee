@@ -59,6 +59,7 @@ config::colors = ->
   @red = '\x1B[31m'
   @cyan = '\x1B[36m'
   @reset = '\x1B[39m'
+  @
 
 config::init = (app) ->
   
@@ -69,5 +70,17 @@ config::init = (app) ->
 
 config::secret = ->
   return process.env.NODE_PASS or "4093055!secretPassword"
+
+config::patchLocals = (req, res, next) ->
+  # patch middleware for res.locals.user
+  accepted = ['get', 'post']
+  method = if req.method? then req.method.toLowerCase() else null
+  
+  if method? 
+    if accepted.indexOf(method) > -1
+      if req.hasOwnProperty('user') then res.locals.user = req.user
+      next()
+    else next()
+  else next()
 
 module.exports = config
