@@ -4,7 +4,7 @@ fs = require "fs"
 util = require "util"
 mkdirp = require "mkdirp"
 
-config = (opts, cleanup, fn) ->
+config = (opts, fn) ->
 
   @title = null
   
@@ -27,14 +27,6 @@ config = (opts, cleanup, fn) ->
   if not @uri? then @uri = util.format @protocol + @host + ":" + @port
   
   if not @db_uri? then @db_uri = util.format @db_connection + "/" + @db_path
-  
-  if cleanup == true
-    delete @init
-    delete @protocol
-    delete @host
-    delete @port
-    delete @db_connection
-    delete @db_path
 
   self = @
 
@@ -42,7 +34,7 @@ config = (opts, cleanup, fn) ->
     res.locals.title = self.title
     next()
 
-  self
+  return if typeof fn == "undefined" then self else fn self
 
 config::extended = (req) ->
 
