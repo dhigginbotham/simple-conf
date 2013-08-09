@@ -53,7 +53,7 @@ var config = new Config(options);
 
 ----
 
-### `config.safeFile(path, callback)`
+### `config.saveFile(path, callback)`
 Stores your config data to `config.json`, so you can load your app with that instead of this module. I use it for client setups, so when they deploy their application I don't need to worry about a db being down, or this module not building.
 
 **Returns**
