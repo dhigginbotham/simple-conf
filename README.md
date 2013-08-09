@@ -1,4 +1,4 @@
-simple-conf
+simple-conf <img src="https://drone.io/github.com/dhigginbotham/simple-conf/status.png" align="right" />
 ===========
 Super simple config module that allows you to easily share some config options for your application with a few helpers. I wrote this because I needed something fairly static for my express sub applications.
 
