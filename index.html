@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Simple-conf by dhigginbotham</title>
+    <title>simple-conf by dhigginbotham</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
@@ -16,7 +16,7 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1 class="header">Simple-conf</h1>
+        <h1 class="header">simple-conf</h1>
         <p class="header">easy to use config object for your node.js app</p>
 
         <ul>
@@ -30,153 +30,141 @@
 
       </header>
       <section>
-        <h1>
-<a name="simple-conf" class="anchor" href="#simple-conf"><span class="octicon octicon-link"></span></a>simple-conf</h1>
+        <h2>
+<a name="simple-conf-" class="anchor" href="#simple-conf-"><span class="octicon octicon-link"></span></a>simple-conf <img src="https://drone.io/github.com/dhigginbotham/simple-conf/status.png" align="right">
+</h2>
 
-<p>easy to use config object for your node.js app</p>
+<p>Super simple config module that allows you to easily share some config options for your application with a few helpers. I wrote this because I needed something fairly static for my express sub applications.</p>
 
-<h3>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h3>
+<h4>
+<a name="heads-up" class="anchor" href="#heads-up"><span class="octicon octicon-link"></span></a>Heads up!</h4>
 
-<p>Step 1) <code>npm install simple-conf --save</code></p>
+<p>I am still fairly regularly breaking, refactoring and perfecting my universal strategy to making one simple config file... to rule them all. (jk, if i wanted that i wouldn't have written this in coffeescript right? <img class="emoji" title=":neckbeard:" alt=":neckbeard:" src="https://github.global.ssl.fastly.net/images/icons/emoji/neckbeard.png" height="20" width="20" align="absmiddle">) However, if you have any issues you should send me an issue so I can fix it.</p>
 
-<p>Step 2) view <code>/examples/example.js</code> (or copy and paste to your app)</p>
+<h2>
+<a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>Example</h2>
 
-<p>Step 3) require the <code>/examples/example.js</code> file inside your app somewhere and <code>console.log()</code></p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">Config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'simple-conf'</span><span class="p">);</span>
 
-<h3>
-<a name="heads-up" class="anchor" href="#heads-up"><span class="octicon octicon-link"></span></a>Heads up!</h3>
+<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">title</span><span class="o">:</span> <span class="s2">"Some example title"</span><span class="p">,</span>
+  <span class="nx">db_path</span><span class="o">:</span> <span class="s2">"test"</span><span class="p">,</span>
+  <span class="nx">port</span><span class="o">:</span> <span class="mi">1337</span><span class="p">,</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kc">false</span>
+<span class="p">};</span>
 
-<p>simple-conf is set to look for a couple environment vars by default, although, if you don't want to set these it will set some defaults instead..</p>
-
-<ul>
-<li><p><code>process.env.NODE_PASS</code>, this will set your initial seed admin password and keep this sensitive stuff
-out of your repo. defaults to: <code>superSecretPassWordDawgz1!2@</code></p></li>
-<li><p><code>process.env.MONGO_DB_STRING</code>, this will link up your mongodb url, good for production and public repos</p></li>
-<li><p>I don't want to set these up! Oh, that's cool too -- it's not going to break, it's just there to help.</p></li>
-</ul><h3>
-<a name="config-helpers-new" class="anchor" href="#config-helpers-new"><span class="octicon octicon-link"></span></a>Config Helpers (new)</h3>
-
-<p>I've included a couple helpers that I use on my apps and find helpful -- maybe you will too?</p>
-
-<p><code>extended</code> - requires <code>req</code> good for middleware, or schema stuff that has access to req, adds:</p>
-
-<ul>
-<li><code>ip = req.headers["x-forwarded-for"] or req.connection.remoteAddress</code></li>
-<li><code>user = if req.user? then req.user.username else "anonymous"</code></li>
-<li><code>engine = req.protocol + "://" + req.get('host')</code></li>
-</ul><p><code>folders</code> - requires <code>path</code> &amp; <code>function (err, path)</code></p>
-
-<ul>
-<li>adds folders easily so you don't have to deal with <code>.placeholder</code> files and whatnot</li>
-</ul><p><code>colors</code> - no requirements</p>
-
-<ul>
-<li>
-<code>red</code> outputs red font color to stdout</li>
-<li>
-<code>cyan</code> outputs cyan font color to stdout</li>
-<li>
-<code>reset</code> resets font color to stdout</li>
-</ul><h3>
-<a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>Example</h3>
-
-<div class="highlight"><pre>
-<span class="nv">Config = </span><span class="nx">require</span> <span class="s">".."</span>
-
-<span class="nv">fs = </span><span class="nx">require</span> <span class="s">"fs"</span>
-<span class="nv">path = </span><span class="nx">require</span> <span class="s">"path"</span>
-
-<span class="nv">env = </span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span>
-
-<span class="nv">port = </span><span class="k">if</span> <span class="nx">env</span> <span class="o">==</span> <span class="s">"production"</span> <span class="k">then</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">port</span> <span class="k">else</span> <span class="mi">3000</span>
-<span class="nv">host = </span><span class="k">if</span> <span class="nx">env</span> <span class="o">==</span> <span class="s">"development"</span> <span class="k">then</span> <span class="s">"http://localhost:</span><span class="si">#{</span><span class="nx">port</span><span class="si">}</span><span class="s">"</span> 
-
-<span class="nv">production = </span><span class="nx">env</span> <span class="o">==</span> <span class="s">"production"</span>
-<span class="nv">development = </span><span class="nx">env</span> <span class="o">==</span> <span class="s">"development"</span>
-
-<span class="nv">config =</span>
-  <span class="nv">api:</span>
-    <span class="nv">github:</span>
-      <span class="nv">username: </span><span class="s">"dhigginbotham"</span>
-    <span class="nv">coderbits:</span>
-      <span class="nv">username: </span><span class="s">"dhz"</span>
-  <span class="nv">app:</span>
-    <span class="nv">title: </span><span class="s">"example-app"</span>
-    <span class="nv">initials: </span><span class="s">"xpl"</span>
-    <span class="nv">port: </span><span class="nx">port</span>
-    <span class="nv">host: </span><span class="nx">host</span>
-    <span class="nv">serverStart: </span><span class="s">"Starting up your express engines"</span>
-    <span class="nv">paths: </span>
-      <span class="nv">uploads: </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="nx">__dirname</span><span class="p">,</span> <span class="s">".."</span><span class="p">,</span> <span class="s">"public"</span><span class="p">,</span> <span class="s">"uploads"</span>
-      <span class="nv">views: </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="nx">__dirname</span><span class="p">,</span> <span class="s">".."</span><span class="p">,</span> <span class="s">"views"</span>
-      <span class="nv">assets: </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="nx">__dirname</span><span class="p">,</span> <span class="s">".."</span><span class="p">,</span> <span class="s">"public"</span>
-  <span class="nv">seed:</span>
-    <span class="nv">init: </span><span class="k">if</span> <span class="nx">production</span> <span class="o">==</span> <span class="kc">true</span> <span class="k">then</span> <span class="kc">false</span> <span class="k">else</span> <span class="kc">true</span>
-  <span class="nv">debug:</span>
-    <span class="nv">mongo: </span><span class="k">if</span> <span class="nx">production</span> <span class="o">==</span> <span class="kc">true</span> <span class="k">then</span> <span class="kc">false</span> <span class="k">else</span> <span class="kc">false</span>
-
-<span class="nv">conf = </span><span class="k">new</span> <span class="nx">Config</span> <span class="nx">config</span>
-
-<span class="k">if</span> <span class="nx">conf</span><span class="p">.</span><span class="nx">debug</span><span class="p">.</span><span class="nx">config</span> <span class="o">==</span> <span class="kc">true</span> <span class="k">then</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">conf</span>
-
-<span class="nv">module.exports = </span><span class="nx">conf</span>
-
+<span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Config</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
 </pre></div>
 
+<h2>
+<a name="quick-overview" class="anchor" href="#quick-overview"><span class="octicon octicon-link"></span></a>Quick overview</h2>
+
 <h3>
-<a name="defaults" class="anchor" href="#defaults"><span class="octicon octicon-link"></span></a>Defaults</h3>
+<a name="new-configoptions" class="anchor" href="#new-configoptions"><span class="octicon octicon-link"></span></a><code>new Config(options)</code>
+</h3>
 
-<p><code>note</code> - defaults are now optional, ex: <code>new Config object, false</code> renders a more modular config for mountable apps.</p>
+<p><strong>Returns</strong></p>
 
-<div class="highlight"><pre>
-  <span class="vi">@app = </span><span class="p">{}</span>
-  <span class="vi">@app.title = </span><span class="s">"Default-config-build"</span>
-  <span class="vi">@app.initials = </span><span class="s">"dcb"</span>
-  <span class="vi">@app.port = </span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">port</span> <span class="o">||</span> <span class="mi">3000</span>
-  <span class="vi">@app.host = </span><span class="s">"http://localhost</span><span class="si">#{</span><span class="nx">@app</span><span class="p">.</span><span class="nx">port</span><span class="si">}</span><span class="s">"</span>
-  <span class="vi">@app.serverStart = </span><span class="s">"Starting express server "</span>
+<p><em>If your options object looks like this:</em></p>
 
-  <span class="vi">@db = </span><span class="p">{}</span>
-  <span class="vi">@db.path = </span><span class="s">"</span><span class="si">#{</span><span class="nx">@app</span><span class="p">.</span><span class="nx">initials</span><span class="si">}</span><span class="s">"</span>
-  <span class="vi">@db.url = </span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">MONGO_DB_STRING</span> <span class="o">||</span> <span class="s">"mongodb://localhost/</span><span class="si">#{</span><span class="nx">@db</span><span class="p">.</span><span class="nx">path</span><span class="si">}</span><span class="s">"</span>
-
-  <span class="vi">@sesh = </span><span class="p">{}</span>
-  <span class="vi">@sesh.key = </span><span class="s">"</span><span class="si">#{</span><span class="nx">@app</span><span class="p">.</span><span class="nx">initials</span><span class="si">}</span><span class="s">.id"</span>
-  <span class="vi">@sesh.secret = </span><span class="nx">_secret</span>
-  <span class="vi">@sesh.maxAge = </span><span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">1000</span>
-
-  <span class="vi">@seed = </span><span class="p">{}</span>
-  <span class="vi">@seed.init = </span><span class="kc">false</span>
-  <span class="vi">@seed.folders = </span><span class="kc">true</span>
-
-  <span class="vi">@users = </span><span class="p">{}</span>
-  <span class="vi">@users.roles = </span><span class="p">[</span><span class="s">'user'</span><span class="p">,</span> <span class="s">'admin'</span><span class="p">,</span> <span class="s">'editor'</span><span class="p">,</span> <span class="s">'commenter'</span><span class="p">]</span>
-  <span class="vi">@users.signupEnabled = </span><span class="kc">true</span>
-
-  <span class="vi">@debug = </span><span class="p">{}</span>
-  <span class="vi">@debug.override = </span><span class="kc">false</span>
-
-  <span class="k">if</span> <span class="nx">opts</span><span class="o">?</span> <span class="k">then</span> <span class="nx">_</span><span class="p">.</span><span class="nx">extend</span> <span class="nx">@</span><span class="p">,</span> <span class="nx">opts</span>
-
-  <span class="k">if</span> <span class="nx">@seed</span><span class="p">.</span><span class="nx">init</span> <span class="o">==</span> <span class="kc">true</span>
-    <span class="vi">@seed.user = </span><span class="p">{}</span>
-    <span class="vi">@seed.user.username = </span><span class="s">"admin"</span>
-    <span class="vi">@seed.user.password = </span><span class="s">"@dminPassw0rd"</span>
-    <span class="vi">@seed.user.admin = </span><span class="kc">true</span>
-    <span class="vi">@seed.user.role = </span><span class="s">"admin"</span>
-    <span class="vi">@seed.user.email = </span><span class="s">"admin@localhost.it"</span>
-    <span class="vi">@seed.user.ip = </span><span class="s">"admin.ipv6"</span>
-
-  <span class="nx">@</span>
-
+<div class="highlight"><pre><span class="p">{</span>
+  <span class="nx">title</span><span class="o">:</span> <span class="s2">"Some example title"</span><span class="p">,</span>
+  <span class="nx">db_path</span><span class="o">:</span> <span class="s2">"test"</span><span class="p">,</span>
+  <span class="nx">port</span><span class="o">:</span> <span class="mi">1337</span><span class="p">,</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kc">false</span>
+<span class="p">}</span>
 </pre></div>
 
-<h3>
+<p><em>Your output would be:</em></p>
+
+<div class="highlight"><pre><span class="p">{</span>
+  <span class="nx">title</span><span class="o">:</span> <span class="s2">"Some example title"</span><span class="p">,</span>
+  <span class="nx">protocol</span><span class="o">:</span> <span class="s2">"http://"</span><span class="p">,</span>
+  <span class="nx">host</span><span class="o">:</span> <span class="s2">"127.0.0.1"</span><span class="p">,</span>
+  <span class="nx">port</span><span class="o">:</span> <span class="mi">1337</span><span class="p">,</span>
+  <span class="nx">uri</span><span class="o">:</span> <span class="s2">"http://127.0.0.1:1337"</span><span class="p">,</span>
+  <span class="nx">db_connection</span><span class="o">:</span> <span class="s2">"mongodb://127.0.0.1:27017"</span><span class="p">,</span>
+  <span class="nx">db_path</span><span class="o">:</span> <span class="s2">"test"</span><span class="p">,</span>
+  <span class="nx">db_uri</span><span class="o">:</span> <span class="s2">"mongodb://127.0.0.1:27017/test"</span><span class="p">,</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kc">false</span>
+<span class="p">}</span>
+</pre></div>
+
+<hr><h3>
+<a name="configsavefilepath-callback" class="anchor" href="#configsavefilepath-callback"><span class="octicon octicon-link"></span></a><code>config.saveFile(path, callback)</code>
+</h3>
+
+<p>Stores your config data to <code>config.json</code>, so you can load your app with that instead of this module. I use it for client setups, so when they deploy their application I don't need to worry about a db being down, or this module not building.</p>
+
+<p><strong>Returns</strong></p>
+
+<ul>
+<li>
+<code>config.json</code> in the path specified</li>
+</ul><hr><h3>
+<a name="configextendedreq" class="anchor" href="#configextendedreq"><span class="octicon octicon-link"></span></a><code>config.extended(req)</code>
+</h3>
+
+<p>Useful when you have access to the <code>req</code> object in express.js</p>
+
+<p><strong>Returns</strong></p>
+
+<ul>
+<li>
+<code>ip</code> - client ip, not the server/router ip</li>
+<li>
+<code>user</code> - if <code>req.user</code> exists it stores it to this</li>
+<li>
+<code>engine</code> - application uri</li>
+</ul><hr><h3>
+<a name="configfolderspath-callback" class="anchor" href="#configfolderspath-callback"><span class="octicon octicon-link"></span></a><code>config.folders(path, callback)</code>
+</h3>
+
+<p>Creates folders easily so you don't have to deal with <code>.placeholder</code> or alike workarounds</p>
+
+<p><strong>Returns</strong> </p>
+
+<ul>
+<li>
+<code>success</code> or <code>failure</code> message</li>
+</ul><hr><h3>
+<a name="configcolors" class="anchor" href="#configcolors"><span class="octicon octicon-link"></span></a><code>config.colors()</code>
+</h3>
+
+<p>Helpful when dealing with a lot of <code>console.</code></p>
+
+<p><strong>Returns</strong></p>
+
+<ul>
+<li><code>red</code></li>
+<li><code>cyan</code></li>
+<li><code>reset</code></li>
+</ul><hr><h3>
+<a name="configsecret" class="anchor" href="#configsecret"><span class="octicon octicon-link"></span></a><code>config.secret()</code>
+</h3>
+
+<p>Keeps your sensitive stuff in a prototype and grabs from <code>process.env.NODE_PASS</code> defaults inside source</p>
+
+<p><strong>Returns</strong></p>
+
+<ul>
+<li><code>secret</code></li>
+</ul><hr><h3>
+<a name="configlocals" class="anchor" href="#configlocals"><span class="octicon octicon-link"></span></a><code>config.locals()</code>
+</h3>
+
+<p><em>Deprecated</em>, planning on destroying this soon.</p>
+
+<hr><h3>
+<a name="configinitapp" class="anchor" href="#configinitapp"><span class="octicon octicon-link"></span></a><code>config.init(app)</code>
+</h3>
+
+<p>If you're building a lot of express apps this binds the title and port, more coming soon..</p>
+
+<hr><h3>
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h3>
 
-<div class="highlight"><pre>
-<span class="n">The</span> <span class="n">MIT</span> <span class="n">License</span> <span class="p">(</span><span class="n">MIT</span><span class="p">)</span>
+<div class="highlight"><pre><span class="n">The</span> <span class="n">MIT</span> <span class="n">License</span> <span class="p">(</span><span class="n">MIT</span><span class="p">)</span>
 
 <span class="n">Copyright</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">2013</span> <span class="n">David</span> <span class="n">Higginbotham</span> 
 
@@ -197,7 +185,6 @@ out of your repo. defaults to: <code>superSecretPassWordDawgz1!2@</code></p></li
 <span class="n">LIABILITY</span><span class="p">,</span> <span class="n">WHETHER</span> <span class="n">IN</span> <span class="n">AN</span> <span class="n">ACTION</span> <span class="n">OF</span> <span class="n">CONTRACT</span><span class="p">,</span> <span class="n">TORT</span> <span class="n">OR</span> <span class="n">OTHERWISE</span><span class="p">,</span> <span class="n">ARISING</span> <span class="n">FROM</span><span class="p">,</span>
 <span class="n">OUT</span> <span class="n">OF</span> <span class="n">OR</span> <span class="n">IN</span> <span class="n">CONNECTION</span> <span class="n">WITH</span> <span class="n">THE</span> <span class="n">SOFTWARE</span> <span class="n">OR</span> <span class="n">THE</span> <span class="n">USE</span> <span class="n">OR</span> <span class="n">OTHER</span> <span class="n">DEALINGS</span> <span class="n">IN</span>
 <span class="n">THE</span> <span class="n">SOFTWARE</span><span class="p">.</span>
-
 </pre></div>
       </section>
       <footer>
