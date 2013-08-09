@@ -16,7 +16,7 @@ var options = {
   init: false
 };
 
-var config = new Config(options);
+var config = module.exports = new Config(options);
 ```
 
 ## Quick overview
@@ -28,10 +28,10 @@ var config = new Config(options);
 
 ```js
 {
-  "title": "Some example title",
-  "db_path": "test",
-  "port": 1337,
-  "init": false
+  title: "Some example title",
+  db_path: "test",
+  port: 1337,
+  init: false
 }
 ```
 
@@ -39,15 +39,15 @@ var config = new Config(options);
 
 ```js
 {
-  "title": "Some example title",
-  "protocol": "http://",
-  "host": "127.0.0.1",
-  "port": 1337,
-  "uri": "http://127.0.0.1:1337",
-  "db_connection": "mongodb://127.0.0.1:27017",
-  "db_path": "test",
-  "db_uri": "mongodb://127.0.0.1:27017/test",
-  "init": false
+  title: "Some example title",
+  protocol: "http://",
+  host: "127.0.0.1",
+  port: 1337,
+  uri: "http://127.0.0.1:1337",
+  db_connection: "mongodb://127.0.0.1:27017",
+  db_path: "test",
+  db_uri: "mongodb://127.0.0.1:27017/test",
+  init: false
 }
 ```
 
