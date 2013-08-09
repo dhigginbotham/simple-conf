@@ -1,0 +1,6 @@
+{
+  "title": "Test Config: JSON",
+  "db_path": "test",
+  "port": 1337,
+  "init": false
+}

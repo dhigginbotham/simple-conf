@@ -1,9 +1,11 @@
 var expect = require('expect.js');
 var request = require('superagent');
 var config = require('../lib');
-var json = require('./config.json');
+var json = require('./test.json');
 var conf = new config(json);
 var util = require('util');
+var path = require('path');
+var fs = require('fs');
 
 var express = require('express');
 var app = express();
@@ -53,6 +55,23 @@ describe('simple-conf json tests', function () {
 describe('simple-conf helpers tests', function () {
 
 
+  it('should make a `config.json` file based off of our config options', function (done) {
+
+    var confPath = path.join(__dirname);
+
+    conf.saveFile(confPath, function (err) {
+
+      expect(err).to.be(null);
+
+      fs.exists(confPath, function (exists) {
+        expect(exists).to.equal(true);
+        done();
+      });
+
+    });
+
+  });
+  
   it('should have access to colors', function (done) {
 
     var colors = conf.colors();

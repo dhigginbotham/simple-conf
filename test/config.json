@@ -1,6 +1,13 @@
 {
   "title": "Test Config: JSON",
-  "db_path": "test",
+  "protocol": "http://",
+  "host": "127.0.0.1",
   "port": 1337,
-  "init": false
+  "uri": "http://127.0.0.1:1337",
+  "db_connection": "mongodb://127.0.0.1:27017",
+  "db_path": "test",
+  "db_uri": "mongodb://127.0.0.1:27017/test",
+  "init": false,
+  "output": "/home/dhigginbotham/Node/simple-conf/test",
+  "file": "config.json"
 }

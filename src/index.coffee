@@ -83,21 +83,21 @@ config::patchLocals = (req, res, next) ->
     else next()
   else next()
 
-config::saveFile = (path, fn) ->
+config::saveFile = (output, fn) ->
 
   # check for existance of path, if it's not set we're going to have issues...
-  if typeof path != "undefined" then @path = path else return fn("You must provide a path")
+  if typeof output != "undefined" then @output = output else return fn("You must provide a path")
 
   # default config object
   @file = "config.json"
 
-  # build the full file path for `config.json`
-  fullPath = path.join @path, @file
+  # build the full file output for `config.json`
+  fullPath = path.join @output, @file
 
   self = @
 
   # check for a file path and make a file, easy.
-  if self.file? then fs.writeFile fullPath, self, (err) ->
+  if self.file? then fs.writeFile fullPath, JSON.stringify(self, undefined, 2), (err) ->
     unless err? then fn(null) else fn(err)
 
 module.exports = config
