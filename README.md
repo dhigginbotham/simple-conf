@@ -2,7 +2,9 @@
 Super simple config module that allows you to easily share some config options for your application with a few helpers. I wrote this because I needed something fairly static for my express sub applications.
 
 #### Heads up!
-I am still fairly regularly breaking, refactoring and perfecting my universal strategy to making one simple config file... to rule them all. (jk, if i wanted that i wouldn't have written this in coffeescript right? :neckbeard:) However, if you have any issues you should send me an issue so I can fix it.
+I am still fairly regularly breaking, refactoring and perfecting my universal strategy to making one simple config file... to rule them all. (jk, if i wanted that i wouldn't have written this in coffeescript right? :neckbeard:)
+
+[![NPM](https://nodei.co/npm/simple-conf.png?compact=true)](https://nodei.co/npm/simple-conf/)
 
 ## Example
 
